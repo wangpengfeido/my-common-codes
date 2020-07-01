@@ -9,7 +9,7 @@ function isIos() {
  * 是否 android
  */
 function isAndroid() {
-  return navigator.userAgent.indexOf('Android') >= 0 || u.indexOf('Linux') > -1;
+  return navigator.userAgent.indexOf('Android') >= 0 || navigator.userAgent.indexOf('Linux') > -1;
 }
 
 /**
