@@ -1,30 +1,38 @@
 /**
  * 深拷贝
+ * 此函数还有部分情况未考虑，如Math，Error,GeneratorFunction,Promise等
  */
 export function cloneDeep(obj) {
-  const visited = []; // 用于判断环状数据
+  // 用于判断环状数据
+  // 这里先不考虑了
+  const visited = [];
 
-  function doOnce(obj) {
-    if (typeof obj === 'object') {
-      // 如果是一个对象（包括数组）
-      const visitedIndex = visited.indexOf(obj);
-      if (visitedIndex >= 0) {
-        return visited[visitedIndex];
-      } else {
-        const result = Object.prototype.toString.call(obj) === '[object Array]' ? [] : {};
-        for (let key in obj) {
-          result[key] = doOnce(obj[key]);
+  function clone(obj) {
+    switch (Object.prototype.toString.call(obj)) {
+      case "[Object Boolean]":
+      case "[Object Number]":
+      case "[Object String]":
+      case "[Object Null]":
+      case "[Object Undefined]":
+      case "[Object Symbol]":
+      case "[Object BigInt]":
+      // 这里 function 也采用直接赋值，并不重新创建一个新函数
+      case "[Object Function]":
+        return obj;
+      case "[Object Object]":
+        let ans = {};
+        for (key in obj) {
+          ans[key] = clone(obj[key]);
         }
-        return result;
-      }
-    } else if (typeof obj === 'function') {
-      // 如果是一个函数
-      return eval(`(${obj.toString()})`);
-    } else {
-      // 其他基本类型
-      return obj;
+        return ans;
+      case "[Object Array]":
+        return obj.map((item) => clone(item));
+      case "[Object Date]":
+        return new Date(obj);
+      case "[Object RegExp]":
+        return new RegExp(obj);
     }
   }
 
-  return doOnce(obj);
+  return clone(obj);
 }
