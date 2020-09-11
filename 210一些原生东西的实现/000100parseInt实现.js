@@ -50,17 +50,14 @@ function _parseInt(str, radix) {
   };
 
   // 如果类型不是 string 或 number 类型返回NaN
-  if (typeof str !== 'string' && typeof str !== 'number') {
+  if (typeof str !== "string" && typeof str !== "number") {
     return NaN;
   }
 
-  str = str
-    .toString()
-    .trim()
-    .toLowerCase();
+  str = str.toString().trim().toLowerCase();
 
   // 设置radix
-  if (typeof radix !== 'string' && typeof radix !== 'number') {
+  if (typeof radix !== "string" && typeof radix !== "number") {
     // 根据字符串格式获取进制
     const hexReg = /^0[xX]/;
     radix = hexReg.test(str) ? 16 : 10;
@@ -73,9 +70,11 @@ function _parseInt(str, radix) {
   }
 
   // 正则匹配出整数部分
-  const intRegStr = `^${radix === 16 ? '(?:0[xX])?' : ''}0*([${Object.keys(baseNumList)
+  const intRegStr = `^${radix === 16 ? "(?:0[xX])?" : ""}0*([${Object.keys(
+    baseNumList
+  )
     .splice(0, radix)
-    .join('')}]*)[\w\W]*`;
+    .join("")}]*)[\w\W]*`;
   const intPartInStr = str.match(new RegExp(intRegStr))[1];
   if (!intPartInStr) {
     return NaN;
@@ -85,7 +84,6 @@ function _parseInt(str, radix) {
   for (let i = 0, len = intPartInStr.length; i < len; i++) {
     let figure = intPartInStr[len - i - 1];
     result += baseNumList[figure] * Math.pow(radix, i);
-    console.log(figure, baseNumList[figure] * Math.pow(radix, i));
   }
   return result;
 }

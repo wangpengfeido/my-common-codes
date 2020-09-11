@@ -18,7 +18,7 @@ export function getQueryValue(search, name) {
   if (!search) {
     return "";
   } else {
-    search = search.substr(1);
+    search = search.substring(1);
   }
   const reg = new RegExp(`(?:^|&)${name}=([^&]*)`);
   const result = search.match(reg);
@@ -36,7 +36,7 @@ export function parseQueryString(search) {
   if (!search) {
     return "";
   } else {
-    search = search.substr(1);
+    search = search.substring(1);
   }
 
   const reg = /(?:^|&)([^=&]*)=?([^&]*)/g;
