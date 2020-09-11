@@ -3,13 +3,12 @@
  */
 function throttle(func, wait) {
   let timer;
-  return function(...args) {
-    let context = this;
+  return function (...args) {
     // 如果timeout不存在，则说明可以执行
     if (!timer) {
-      timer = setTimeout(function() {
+      timer = setTimeout(() => {
         // 保持原来的this
-        func.apply(context, args);
+        func.apply(this, args);
         timer = null;
       }, wait);
     }
